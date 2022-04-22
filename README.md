@@ -4,7 +4,7 @@
 
 # Filament Feed Widget
 
-With DadJokes every time you load your control panel you'll be greeted by an epic dad joke on the dashboard.
+Show feeds on your dashboard, simply update the config file to include the feeds you wish to display
 
 ## Installation
 
@@ -15,6 +15,25 @@ You can install the package via composer:
 composer require phpsa/filament-feed
 ```
 
+Publish the config file
+```
+php artisan vendor:publish --tag=filament-feed-config
+```
+
+Showing Feeds - Config structure as follows, each feed item will be a new card on the dashboard.
+```
+return [
+    'feeds' => [
+        'FEED HEADING' => [
+            'url' => 'https://feed.laravel-news.com/', //feed url - required
+            'limit' => 5,// feed limit -- optional (default 5)
+            'refresh' => 300, //cache refresh time -- optional default 300
+        ],
+        ... //next feeds if required
+    ],
+];
+
+```
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
