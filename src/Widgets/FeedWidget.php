@@ -14,6 +14,9 @@ class FeedWidget extends Widget
 
     protected static string $view = 'filament-feed::filament.widgets.feed';
 
+    /**
+     * @return array<string, array>
+     */
     protected function getViewData(): array
     {
         return [
@@ -21,14 +24,24 @@ class FeedWidget extends Widget
         ];
     }
 
+     /**
+     * @return array<string, array>
+     */
     protected function getFeeds(): array
     {
-        return collect(Config::get('filament-feed.feeds', []))
-            ->map(fn($feed, $key) => $this->fetchFeed($feed, $key))
+        /**
+         * @var array<string, array>
+         */
+        $config = Config::get('filament-feed.feeds', []);
+        return collect($config)
+            ->map(fn(array $feed, string $key): ?array => $this->fetchFeed($feed, $key))
             ->filter()
             ->toArray();
     }
 
+    /**
+     * @return array<string, string|array>|null
+     */
     protected function fetchFeed(array $feed, string $key): ?array
     {
 
@@ -45,6 +58,12 @@ class FeedWidget extends Widget
         return  $data;
     }
 
+    /**
+     * @param string $url
+     * @param int $limit
+     *
+     * @return array{title: ?string, permalink: ?string, items: array<\SimplePie_Item>|null}
+     */
     public function getFeed(string $url, int $limit): array
     {
         $simplePie = new \SimplePie();
